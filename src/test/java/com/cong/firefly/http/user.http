@@ -5,10 +5,20 @@ Accept: application/vnd.spring-boot.actuator.v3+json
 
 ###
 
-GET http://127.0.0.1:12005/api/user/queryOneByUsername?username=cong
+GET http://127.0.0.1:12005/api/user/queryOneByUsername?username=cong.zheng
+Content-Type: application/json
+token: f21434821cb143ec8ea733136360521e
 
 <> 2023-01-17T112213.200.json
 
 
 ###
+
+POST http://127.0.0.1:12005/api/user/login
+Content-Type: application/json
+
+{
+  "username": "cong.zheng",
+  "password": "Snow@0417"
+}
 

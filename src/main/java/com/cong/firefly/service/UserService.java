@@ -5,12 +5,14 @@ import com.cong.firefly.jpa.UserRepo;
 import com.cong.firefly.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -35,11 +37,11 @@ public class UserService {
     public void save(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-        String salt = RandomStringUtils.random(5);
+        String salt = RandomStringUtils.randomAlphabetic(10);
         user.setSalt(salt);
         String hashPassword = DigestUtils.md5DigestAsHex((userDto.getPassword() + salt).getBytes(StandardCharsets.UTF_8));
         user.setPassword(hashPassword);
-        user.setCreateTime(LocalDate.now());
+        user.setCreateTime(new Date());
         user.setStatus(1);
         user.setIsDeleted(0);
         userRepo.save(user);
@@ -71,5 +73,23 @@ public class UserService {
         return 1;
     }
 
+    /**
+     * 登陆
+     * @param userDto
+     * @return
+     */
 
+    public User login(UserDto userDto) {
+        User user = this.getByUsername(userDto.getUsername());
+        if (null==user){
+            throw new RuntimeException("用户名或者密码错误");
+        }
+        //密码加盐计算密文
+        String hexPassword = DigestUtils.md5DigestAsHex((userDto.getPassword() + user.getSalt()).getBytes(StandardCharsets.UTF_8));
+        if (StringUtils.equals(user.getPassword(),hexPassword)){
+            return user;
+        }else {
+            throw new RuntimeException("用户名或者密码错误");
+        }
+    }
 }
