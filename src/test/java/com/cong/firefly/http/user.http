@@ -1,0 +1,14 @@
+GET http://127.0.0.1:12005/api/actuator/health
+Accept: application/vnd.spring-boot.actuator.v3+json
+
+<> 2023-01-17T112010.200.json
+
+###
+
+GET http://127.0.0.1:12005/api/user/queryOneByUsername?username=cong
+
+<> 2023-01-17T112213.200.json
+
+
+###
+
