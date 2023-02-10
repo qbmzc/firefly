@@ -12,9 +12,9 @@ import lombok.ToString;
 @ToString
 public class UserDto {
 
-//    @ApiModelProperty("用户名称")
+//    @ApiModelProperty("邮箱")
     @NotBlank
-    private String username;
+    private String email;
 
 //    @ApiModelProperty("密码")
     @NotBlank

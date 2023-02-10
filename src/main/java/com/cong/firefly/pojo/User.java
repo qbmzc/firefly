@@ -19,14 +19,14 @@ public class User  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition="")
+    
     private String username;
 
     private String password;
 
-//    private String phone;
-//
-//    private String email;
+   private String phone;
+
+   private String email;
 
     private String salt;
 

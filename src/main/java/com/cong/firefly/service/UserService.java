@@ -36,7 +36,7 @@ public class UserService {
      */
     public void save(UserDto userDto) {
         User user = new User();
-        user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
         String salt = RandomStringUtils.randomAlphabetic(10);
         user.setSalt(salt);
         String hashPassword = DigestUtils.md5DigestAsHex((userDto.getPassword() + salt).getBytes(StandardCharsets.UTF_8));
@@ -80,7 +80,7 @@ public class UserService {
      */
 
     public User login(UserDto userDto) {
-        User user = this.getByUsername(userDto.getUsername());
+        User user = this.getByUsername(userDto.getEmail());
         if (null==user){
             throw new RuntimeException("用户名或者密码错误");
         }

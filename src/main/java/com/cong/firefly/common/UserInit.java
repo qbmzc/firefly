@@ -1,12 +1,12 @@
 package com.cong.firefly.common;
 
-import com.cong.firefly.dto.UserDto;
-import com.cong.firefly.jpa.UserRepo;
-import com.cong.firefly.service.UserService;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.cong.firefly.dto.UserDto;
+import com.cong.firefly.service.UserService;
+
+import jakarta.annotation.PostConstruct;
 
 /**
  * @author cong
