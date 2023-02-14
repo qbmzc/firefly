@@ -10,28 +10,28 @@ import lombok.Data;
 @Data
 public class R {
     private int code;
-    private String msg;
-    private Object body;
+    private String message;
+    private Object data;
 
     public R() {
         this.code=200;
-        this.msg="success";
+        this.message="success";
     }
 
-    public R(int code, String msg, Object body) {
+    public R(int code, String msg, Object data) {
         this.code = code;
-        this.msg = msg;
-        this.body = body;
+        this.message = msg;
+        this.data = data;
     }
 
     public R(int code, String msg) {
         this.code = code;
-        this.msg = msg;
+        this.message = msg;
     }
 
-    public R(Object body) {
+    public R(Object data) {
         this.code=200;
-        this.msg="success";
-        this.body = body;
+        this.message="success";
+        this.data = data;
     }
 }

@@ -1,19 +1,20 @@
 package com.cong.firefly.service;
 
-import com.cong.firefly.dto.UserDto;
-import com.cong.firefly.jpa.UserRepo;
-import com.cong.firefly.pojo.User;
-import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.Optional;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Optional;
+import com.cong.firefly.dto.UserDto;
+import com.cong.firefly.jpa.UserRepo;
+import com.cong.firefly.pojo.User;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author cong
@@ -34,7 +35,7 @@ public class UserService {
      *
      * @param userDto
      */
-    public void save(UserDto userDto) {
+    public User save(UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());
         String salt = RandomStringUtils.randomAlphabetic(10);
@@ -45,6 +46,7 @@ public class UserService {
         user.setStatus(1);
         user.setIsDeleted(0);
         userRepo.save(user);
+        return user;
     }
 
 
@@ -56,6 +58,18 @@ public class UserService {
     public User getByUsername(String username) {
         User user = new User();
         user.setUsername(username);
+        Optional<User> optional = userRepo.findOne(Example.of(user));
+        return optional.orElse(null);
+    }
+
+    /**
+     * email
+     * @param email
+     * @return
+     */
+    public User getByEmail(String email) {
+        User user = new User();
+        user.setEmail(email);
         Optional<User> optional = userRepo.findOne(Example.of(user));
         return optional.orElse(null);
     }
@@ -80,7 +94,7 @@ public class UserService {
      */
 
     public User login(UserDto userDto) {
-        User user = this.getByUsername(userDto.getEmail());
+        User user = this.getByEmail(userDto.getEmail());
         if (null==user){
             throw new RuntimeException("用户名或者密码错误");
         }

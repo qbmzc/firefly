@@ -2,9 +2,11 @@ package com.cong.firefly.controller;
 
 import com.cong.firefly.common.R;
 import com.cong.firefly.dto.UserDto;
+import com.cong.firefly.dto.UserInfo;
 import com.cong.firefly.pojo.User;
 import com.cong.firefly.service.UserService;
 import com.cong.firefly.common.ObjectMapperEnum;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,8 +32,10 @@ public class UserController {
 
     @PostMapping("register")
     private R register(@RequestBody @Valid UserDto userDto) {
-        userService.save(userDto);
-        return new R();
+        User user = userService.save(userDto);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(user.getId());
+        return new R(userInfo);
     }
 
     @PostMapping("login")
@@ -42,8 +46,12 @@ public class UserController {
         String token = UUID.randomUUID().toString().replaceAll("-", "");
         String userStr = ObjectMapperEnum.INSTANCE.getObjectMapper().writeValueAsString(user);
         session.setAttribute(token, userStr);
-        Map<String, String> tokenMap = Map.of("token", token);
-        return new R(tokenMap);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(user.getId());
+        userInfo.setUsername(user.getUsername());
+        userInfo.setToken(token);
+        userInfo.setAvatar(null);
+        return new R(userInfo);
     }
 
     @GetMapping("queryOneByUsername")

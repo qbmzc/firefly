@@ -23,9 +23,9 @@ public class UserInit {
      */
     @PostConstruct
     public void initUser() {
-        if (null == userService.getByUsername("cong.zheng")) {
+        if (null == userService.getByEmail("mxlyzc@163.com")) {
             UserDto userDto = new UserDto();
-            userDto.setUsername("cong.zheng");
+            userDto.setEmail("mxlyzc@163.com");
             userDto.setPassword("Snow@0417");
             userService.save(userDto);
         }
